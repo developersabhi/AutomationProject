@@ -25,7 +25,8 @@ public class CommonMethod {
     public CommonMethod(){
         PageFactory.initElements(TestBase.getWebDriver(),this);
     }
-
+    //div[@id='zgE6AeerZ']/parent::div[@class='toasted toasted-primary success')]
+    //div[@id='zgE6AeerZ']//parent::div[contains(text(),'Website status is active updated successfully')]
     @FindBy(xpath = "//form//button[contains(text(), 'Login')]")
     WebElement loginBtn;
     @FindBy(xpath = "//button[contains(text(), 'Cancel') and @aria-label='Close']")
@@ -40,6 +41,20 @@ public class CommonMethod {
     WebElement secretKey;
     @FindBy(xpath = "(//button[contains(text(), 'Cancel')])[2]")
     WebElement cancelBtn;
+    @FindBy(xpath = "//button[@class='btn action-btn']")
+    WebElement actionBtn;
+    @FindBy(xpath = "//button[@type='button']//child::i//child::img[@src ='/user/images/edit-icon.svg']")
+    WebElement editBtn;
+    @FindBy(xpath="//i//child::img[@src ='/user/images/delete-icon.svg']")
+    WebElement deleteBtn;
+    @FindBy(xpath = "//div[@class ='swal2-actions']/child::button[@class='swal2-confirm swal2-styled']")
+    WebElement yesBtn;
+    @FindBy(xpath = "//div[@class ='swal2-actions']/child::button[@class='swal2-confirm swal2-styled']")
+    WebElement okBtn;
+    @FindBy(xpath ="//div[@id='zgE6AeerZ']//parent::div[@class='toasted toasted-primary success']")
+    WebElement statusActive;
+    @FindBy(xpath ="//div[@id='zgE6AeerZ']//parent::div[@class='toasted toasted-primary error']")
+    WebElement statusDeactive;
 
 
     public void explicitWait(long time) {
@@ -98,31 +113,57 @@ public class CommonMethod {
                 explicitWait(2000);
                 waitForVisibleElement(notiCancelBtn);
                 notiCancelBtn.click();
-                logger.info("Notification cancel button  Clicked");
+                logger.info("Notification cancel button  clicked");
                 break;
             case "LOGOUT":
                 waitForVisibleElement(logoutBtn);
-                logger.info("Logout button clicked:: ");
                 logoutBtn.click();
+                logger.info("Logout button clicked:: ");
                 break;
             case "SUBMIT":
                 waitForVisibleElement(submitBtn);
                 submitBtn.click();
+                logger.info("SUBMIT button  clicked");
                 break;
             case "ADD WEBSITE":
                 waitForVisibleElement(addWebSite);
                 addWebSite.click();
-                logger.info("ADD WEBSITE button Clicked");
+                logger.info("ADD WEBSITE button clicked");
                 break;
             case "SECRET KEY":
                 explicitWait(1000);
                 waitForVisibleElement(secretKey);
                 secretKey.click();
-                logger.info("ADD WEBSITE button Clicked");
+                logger.info("Secret key button clicked");
                 break;
             case "CANCEL":
                 waitForVisibleElement(cancelBtn);
                 cancelBtn.click();
+                logger.info("CANCEL button  Clicked");
+                break;
+            case "ACTION":
+                waitForVisibleElement(actionBtn);
+                actionBtn.click();
+                logger.info("ACTION button  Clicked");
+                break;
+            case "EDIT":
+                waitForVisibleElement(editBtn);
+                editBtn.click();
+                logger.info("EDIT button  Clicked");
+                break;
+            case "DELETE":
+                waitForVisibleElement(deleteBtn);
+                deleteBtn.click();
+                break;
+            case "YES":
+                waitForVisibleElement(yesBtn);
+                yesBtn.click();
+                break;
+            case "OK":
+                explicitWait(2000);
+                waitForVisibleElement(okBtn);
+                okBtn.click();
+                break;
             default:
                 logger.error("Button not found..");
         }

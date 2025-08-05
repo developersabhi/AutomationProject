@@ -101,8 +101,6 @@ public class Website extends CommonMethod {
     @FindBy(xpath = "//p[@class='text-danger validation_msg database_name']")
     WebElement databaseAlready;
 
-
-
     public void verifyErrorMessage(List<Map<String, String>> list) {
         for (Map<String, String> map : list) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -305,6 +303,24 @@ public class Website extends CommonMethod {
             default:
                 logger.info("Data not found..");
         }
+    }
+
+    public void verifyAddWebsiteDeleted(){
+        waitForVisibleElement(search);
+        search.clear();
+        search.sendKeys(webSiteName);
+        search.sendKeys(Keys.ENTER);
+        List<String>UIData = new ArrayList<>();
+        String xpath = "//tbody/tr/td[#index#]";
+        for (int i = 2; i < 6; i++) {
+            String byIndex ="";
+            byIndex = xpath.replaceAll("#index#",String.valueOf(i));
+            UIData.add(TestBase.getWebDriver().findElement(By.xpath(byIndex)).getText());
+        }Collections.sort(data);
+        Collections.sort(UIData);
+
+        boolean isPresent = UIData.contains(webSiteName); //true
+        Assert.assertFalse( " Website " + webSiteName + " is still visible — expected it to be deleted!", isPresent);
     }
 
 }

@@ -53,5 +53,26 @@ public class websiteTest extends CommonMethod {
         website.verifyAlreadyExistValidation(field);
     }
 
+    @Then("enter the data value for search.")
+    public void enter_the_data_value_for_search() {
+        website.searchAddedWebSite();
+    }
+
+    @Then("User Verify the Edited Website on list.")
+    public void user_verify_the_edited_website_on_list() {
+        explicitWait(1000);
+        website.verifyAddedSite();
+    }
+
+    @Then("verifying the deleted site.")
+    public void verifying_the_deleted_site() {
+        explicitWait(3000);
+        website.verifyAddWebsiteDeleted();
+    }
+
+    @Then("User Close the Browser;")
+    public void user_close_the_browser() {
+        getTestBase().quitBrowser();
+    }
 
 }
