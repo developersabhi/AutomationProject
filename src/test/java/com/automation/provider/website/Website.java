@@ -379,4 +379,13 @@ public class Website extends CommonMethod {
         }
     }
 
+    public void verifyWebsiteListHeader(String heading){
+        try{
+            String expression="(//*[contains(text(), '#heading#')])[1]".replaceAll("#heading#",heading);
+            WebElement element=TestBase.getWebDriver().findElement(By.xpath(expression));
+            Assert.assertEquals("Expected data and actual data match:: ",heading,element.getText());
+        }catch (Exception e){
+            logger.error("Header not match as per expectation:: "+e.getMessage());
+        }
+    }
 }

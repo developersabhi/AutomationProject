@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import util.CommonMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +84,16 @@ public class websiteTest extends CommonMethod {
     @Then("verify the status change from active to {string}.")
     public void verify_the_status_change_from_active_to(String status) {
         website.varifyStatusValidationMessage(status);
+    }
+
+    @Then("Verify website list have following header field.")
+    public void verify_website_list_have_following_header_field(DataTable dataTable) {
+        List<List<String>> list = dataTable.asLists(String.class);
+        for (List<String> row : list) {
+            for (String header : row) {
+                website.verifyWebsiteListHeader(header);
+            }
+        }
     }
 
 }
