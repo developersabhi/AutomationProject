@@ -11,12 +11,14 @@ import util.BaseUtil;
 import util.CommonMethod;
 import util.TestBase;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.*;
 
 public class Website extends CommonMethod {
     static protected String webSiteName, loginSlugName, database ,IPs , URLValue, ClientNameValue ;
 
-    Logger logger;
+    static Logger logger = Logger.getLogger(Website.class);
     BaseUtil baseUtil = new BaseUtil();
     CommonMethod commonMethod = new CommonMethod();
 
@@ -24,6 +26,7 @@ public class Website extends CommonMethod {
 
     Website() {
         PageFactory.initElements(TestBase.getWebDriver(), this);
+        init();
     }
 
     @FindBy(xpath = "//input[@placeholder ='Enter Website Name']")
@@ -100,6 +103,9 @@ public class Website extends CommonMethod {
 
     @FindBy(xpath = "//p[@class='text-danger validation_msg database_name']")
     WebElement databaseAlready;
+
+    @FindBy(xpath = "//tbody/tr[last()]")
+    WebElement lastIndex;
 
     public void verifyErrorMessage(List<Map<String, String>> list) {
         for (Map<String, String> map : list) {
@@ -263,7 +269,7 @@ public class Website extends CommonMethod {
                 waitForVisibleElement(websiteName);
                 baseUtil.enterText(websiteName, webSiteName);
                 commonMethod.clickOnButtons("SUBMIT");
-                 expectedResult = "The website name has already been taken.";
+                expectedResult =uiValidationProp.get("WebsiteNameAlreadyTaken");
                  waitForVisibleElement(websiteAlready);
                  actualResult = websiteAlready.getText();
                 Assert.assertEquals("Website already  ",expectedResult,actualResult);
@@ -285,7 +291,7 @@ public class Website extends CommonMethod {
                 baseUtil.enterText(loginSlug,loginSlugName);
                 commonMethod.clickOnButtons("SUBMIT");
                 explicitWait(1000);
-                expectedResult = "The login slug has already been taken.";
+                expectedResult = uiValidationProp.get("LoginSlugAlreadyTaken");
                 waitForVisibleElement(loginslugAlready);
                 actualResult = loginslugAlready.getText();
                 Assert.assertEquals("Login slug already",expectedResult,actualResult);
@@ -295,7 +301,7 @@ public class Website extends CommonMethod {
                 baseUtil.enterText(databaseName,database);
                 commonMethod.clickOnButtons("SUBMIT");
                 explicitWait(1000);
-                expectedResult = "The database name has already been taken.";
+                expectedResult = uiValidationProp.get("DatabaseNameAlreadyTaken");
                 waitForVisibleElement(databaseAlready);
                 actualResult= databaseAlready.getText();
                 Assert.assertEquals("Database already",expectedResult,actualResult);
@@ -310,17 +316,39 @@ public class Website extends CommonMethod {
         search.clear();
         search.sendKeys(webSiteName);
         search.sendKeys(Keys.ENTER);
-        List<String>UIData = new ArrayList<>();
-        String xpath = "//tbody/tr/td[#index#]";
-        for (int i = 2; i < 6; i++) {
-            String byIndex ="";
-            byIndex = xpath.replaceAll("#index#",String.valueOf(i));
-            UIData.add(TestBase.getWebDriver().findElement(By.xpath(byIndex)).getText());
-        }Collections.sort(data);
-        Collections.sort(UIData);
+        if (baseUtil.isElementDisplayed(lastIndex)) Assert.fail("Website still visible after delete...");
+        else logger.info("Website deleted successfully."+logger.getName());
+    }
 
-        boolean isPresent = UIData.contains(webSiteName); //true
-        Assert.assertFalse( " Website " + webSiteName + " is still visible — expected it to be deleted!", isPresent);
+    public static Map<String,String> readUiProperties(){
+        Map<String,String> all =new HashMap<>();
+        Properties properties = new Properties();
+        try {
+            InputStream inputStream = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/UiValidation.properties");
+            properties.load(inputStream);
+            Enumeration<Object> keys = properties.keys();
+            while (keys.hasMoreElements()) {
+                String key = (String) keys.nextElement();
+                all.put(key, properties.getProperty(key));
+            }
+        }catch (Exception e){
+            logger.error("Ui properties file not read.."+e.getMessage());
+        }
+        return all;
+
+    }
+
+    public void VerifyUiValidationMessage(){
+        try {
+            Map<String,String>UiTest = readUiProperties();
+//            String WebsiteNameAlreadyTaken = UiTest.get("WebsiteNameAlreadyTaken");
+        }catch (Exception e){
+            logger.error("Ui properties file not read.."+e.getMessage());
+        }
+    }
+    Map<String,String> uiValidationProp = null;
+    public void init(){
+        uiValidationProp =readUiProperties();
     }
 
 }
