@@ -130,3 +130,24 @@ Feature: GetID --> Add new WebSite
     Then verifying the deleted site.
     Then User will logout.
     And User Close the Browser;
+
+    @Website_Status_Change
+    Scenario: Scenario_6: Change the status and varify on the list.
+      Given User log in to provider URL and is already present at the website list page.
+      Then click on the  "Noti Cancel" button.
+      Then click on the  "Add Website" button.
+      Then user enter the data "Game" for "Website Name" field.
+      Then user enter the data "102.120.52.25" for "IP" field.
+      Then user enter the data "https://GameRunner.com" for "URL" field.
+      Then user enter the data "Edu master" for "Client name" field.
+      Then user enter the data "slug" for "Login Slug" field.
+      Then user enter the data "db" for "Database Name" field.
+      Then click on the  "SECRET KEY" button.
+      Then click on the  "Submit" button.
+      Then user enter the data on the Search.
+      Then User Verify the Add Website on list
+      Then click on the  "Status" button.
+      Then verify the status change from deactive to "active".
+      Then click on the  "Status" button.
+      Then verify the status change from active to "deactive".
+      And User will logout.

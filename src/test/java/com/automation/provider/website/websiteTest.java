@@ -76,4 +76,13 @@ public class websiteTest extends CommonMethod {
         getTestBase().quitBrowser();
     }
 
+    @Then("verify the status change from deactive to {string}.")
+    public void verify_the_status_change_from_deactive_to(String status) {
+        website.varifyStatusValidationMessage(status);
+    }
+    @Then("verify the status change from active to {string}.")
+    public void verify_the_status_change_from_active_to(String status) {
+        website.varifyStatusValidationMessage(status);
+    }
+
 }
