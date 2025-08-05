@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 
 public class BaseUtil {
-    Logger logger;
+    Logger logger= Logger.getLogger(BaseUtil.class);
 
     public void enterText(WebElement element, String text){
         try {

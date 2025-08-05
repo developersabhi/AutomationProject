@@ -16,6 +16,7 @@ public class websiteTest extends CommonMethod {
     public void user_log_in_to_provider_url_and_is_already_present_at_the_website_list_page() {
         explicitWait(2000);
         getTestBase().login();
+
     }
     @Then("click on the  {string} button.")
     public void click_on_the_button(String button) {
@@ -38,7 +39,7 @@ public class websiteTest extends CommonMethod {
     }
     @Then("User Verify the Add Website on list")
     public void user_verify_the_add_website_on_list() {
-            website.verifyAddedSite();;
+            website.verifyAddedSite();
     }
     @Then("User will logout.")
     public void user_will_logout() {
@@ -53,5 +54,26 @@ public class websiteTest extends CommonMethod {
         website.verifyAlreadyExistValidation(field);
     }
 
+    @Then("enter the data value for search.")
+    public void enter_the_data_value_for_search() {
+        website.searchAddedWebSite();
+    }
+
+    @Then("User Verify the Edited Website on list.")
+    public void user_verify_the_edited_website_on_list() {
+        explicitWait(1000);
+        website.verifyAddedSite();
+    }
+
+    @Then("verifying the deleted site.")
+    public void verifying_the_deleted_site() {
+        explicitWait(3000);
+        website.verifyAddWebsiteDeleted();
+    }
+
+    @Then("User Close the Browser;")
+    public void user_close_the_browser() {
+        getTestBase().quitBrowser();
+    }
 
 }

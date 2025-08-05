@@ -70,4 +70,8 @@ public class TestBase {
         commonMethod.clickOnButtons("LOGOUT");
     }
 
+    public  void  quitBrowser(){
+        driver.quit();
+    }
+
 }

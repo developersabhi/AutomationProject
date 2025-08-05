@@ -43,7 +43,6 @@ Feature: GetID --> Add new WebSite
       Then user enter the data on the Search.
       Then User Verify the Add Website on list
       And User will logout.
-#      And User Close the Browser;
 
   @WebSiteList_Add_with_mandatory_field
   Scenario:Scenario_2: Add Website and verify the added website.
@@ -93,3 +92,41 @@ Feature: GetID --> Add new WebSite
     Then click on the  "Cancel" button.
     And User will logout.
 
+  @WebsiteList_Edit
+  Scenario:Scenario_4: Edit website and verify the edited website.
+    Given User log in to provider URL and is already present at the website list page.
+    Then click on the  "Noti Cancel" button.
+    Then enter the data value for search.
+    Then click on the  "Action" button.
+    Then click on the  "Edit" button.
+    Then user enter the data "Game" for "Website Name" field.
+    Then user enter the data "102.120.52.25" for "IP" field.
+    Then user enter the data "https://GameRunner.com" for "URL" field.
+    Then user enter the data "Edu master" for "Client name" field.
+    Then user enter the data "https://tp.yesno.in/get-id/approve-reject" for "Approve/Reject Hook URL" field.
+    Then user enter the data "https://tp.yesno2.in/get-id/approve-reject" for "Withdraw Hook URL" field.
+    Then user enter the data "https://tp.yesno2.in/get-id/user-balance" for "Balance Hook URL" field.
+    Then user enter the data "https://tp.yesno2.in/get-id/agent-login" for "Agent Login Hook URL" field.
+    Then user enter the data "https://tp.yesno.in/get-id/agent-login" for "Manually Transaction Hook URL" field.
+    Then user enter the data "https://tp.yesno42.in/get-id/agent-login" for "User Registraction Hook URL" field.
+    Then user enter the data "https://tp.yesno2475.in/get-id/user-bet-status" for "User Bet Status Hook URL" field.
+    Then user enter the data "slug" for "Login Slug" field.
+    Then user enter the data "db" for "Database Name" field.
+    Then click on the  "SECRET KEY" button.
+    Then click on the  "Submit" button.
+#    Then user enter the data on the Search.
+    Then User Verify the Edited Website on list.
+    And User will logout.
+
+  @WebSiteDelete
+  Scenario: Scenario_5:Delete website on the list.
+    Given User log in to provider URL and is already present at the website list page.
+    Then click on the  "Noti Cancel" button.
+    Then enter the data value for search.
+    Then click on the  "Action" button.
+    Then click on the  "Delete" button.
+    Then click on the  "Yes" button.
+    Then click on the  "Ok" button.
+    Then verifying the deleted site.
+    Then User will logout.
+    And User Close the Browser;
