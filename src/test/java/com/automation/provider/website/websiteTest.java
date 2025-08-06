@@ -88,12 +88,16 @@ public class websiteTest extends CommonMethod {
 
     @Then("Verify website list have following header field.")
     public void verify_website_list_have_following_header_field(DataTable dataTable) {
-        List<List<String>> list = dataTable.asLists(String.class);
-        for (List<String> row : list) {
-            for (String header : row) {
-                website.verifyWebsiteListHeader(header);
-            }
+        List<String> list = dataTable.row(0);
+        for(String data:list){
+            website.verifyWebsiteListHeader(data);
         }
+//        List<List<String>> list = dataTable.asLists(String.class);
+//        for (List<String> row : list) {
+//            for (String header : row) {
+//                website.verifyWebsiteListHeader(header);
+//            }
+//        }
     }
 
 }

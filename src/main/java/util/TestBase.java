@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.util.Map;
 
@@ -19,9 +20,15 @@ public class TestBase {
 
     TestBase(){
         init();
+        PageFactory.initElements(TestBase.getWebDriver(), this);
         globProp = commonMethod.readProperties();
     }
 
+    @FindBy(xpath = "//div[@class='logo-search-bx']//a[@class = 'admin-logo']//child::img[@src ='/user/images/logo-img.svg']")
+    WebElement gitIDLogo;
+
+    @FindBy(xpath="//div[@class='add-but']//child::a[contains(text(),'Add Website')]")
+    WebElement addWebSite;
     public static TestBase getInstance() {
         if (instance==null){
             instance = new TestBase();
@@ -49,18 +56,31 @@ public class TestBase {
     }
 
     public void login() {
-        BaseUtil baseUtil = new BaseUtil();
-        getWebDriver().get(globProp.get("provider_env_url")); //driver.get
-        commonMethod.waitForVisibleElement(driver.
-                findElement(By.xpath(globProp.get("provider_username_locater"))));
-        baseUtil.enterText(driver.
-                findElement(By.xpath(globProp.get("provider_username_locater"))), globProp.get("provider_username"));
-        commonMethod.waitForVisibleElement(driver.
-                findElement(By.xpath(globProp.get("provider_password_locater"))));
-        baseUtil.enterText(driver.
-                findElement(By.xpath(globProp.get("provider_password_locater"))), globProp.get("provider_password"));
-        commonMethod.clickOnButtons("LOGIN");
-        logger.info("Provider login successful..");
+        try {
+            String currentUrl = getWebDriver().getCurrentUrl();
+            logger.info("Current URL:: "+currentUrl);
+            if (!"data".equals(currentUrl)){
+                BaseUtil baseUtil = new BaseUtil();
+                getWebDriver().get(globProp.get("provider_env_url")); //driver.get
+                commonMethod.waitForVisibleElement(driver.
+                        findElement(By.xpath(globProp.get("provider_username_locater"))));
+                baseUtil.enterText(driver.
+                        findElement(By.xpath(globProp.get("provider_username_locater"))), globProp.get("provider_username"));
+                commonMethod.waitForVisibleElement(driver.
+                        findElement(By.xpath(globProp.get("provider_password_locater"))));
+                baseUtil.enterText(driver.
+                        findElement(By.xpath(globProp.get("provider_password_locater"))), globProp.get("provider_password"));
+                commonMethod.clickOnButtons("LOGIN");
+                logger.info("Provider login successful..");
+            }else {
+                gitIDLogo.click();
+                getWebDriver().navigate().refresh();
+                commonMethod.waitForVisibleElement(addWebSite);
+                logger.info("User already present on login page.");
+            }
+        }catch (Exception e){
+            logger.error("User get error :: "+e.getMessage());
+        }
     }
 
     public void logout() {
@@ -71,7 +91,8 @@ public class TestBase {
     }
 
     public  void  quitBrowser(){
-        driver.quit();
+        getWebDriver().quit();
+
     }
 
 }
