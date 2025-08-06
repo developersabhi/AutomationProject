@@ -282,8 +282,8 @@ public class Website extends CommonMethod {
                 baseUtil.enterText(websiteName, webSiteName);
                 commonMethod.clickOnButtons("SUBMIT");
                 expectedResult =uiValidationProp.get("WebsiteNameAlreadyTaken");
-                 waitForVisibleElement(websiteAlready);
-                 actualResult = websiteAlready.getText();
+                waitForVisibleElement(websiteAlready);
+                actualResult = websiteAlready.getText();
                 Assert.assertEquals("Website already  ",expectedResult,actualResult);
                 break;
             case "IP":
