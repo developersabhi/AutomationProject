@@ -3,6 +3,7 @@ package com.automation.provider.website;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import util.CommonMethod;
 
 import java.util.ArrayList;
@@ -98,6 +99,16 @@ public class websiteTest extends CommonMethod {
 //                website.verifyWebsiteListHeader(header);
 //            }
 //        }
+    }
+
+    @When("User selects page size {string}")
+    public void user_selects_page_size(String size) {
+        website.selectPageSize(size);
+    }
+
+    @Then("The number of rows displayed should be at most {int}")
+    public void verify_rows_displayed(int expectedMax) {
+        website.verifyRowCount(expectedMax);
     }
 
 }
