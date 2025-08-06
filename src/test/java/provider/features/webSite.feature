@@ -172,3 +172,14 @@ Feature: GetID --> Add new WebSite
     Then The number of rows displayed should be at most 100
     When User selects page size "200"
     Then The number of rows displayed should be at most 200
+
+    @Website_verify_previous_next
+    Scenario: Scenario_9: Verify Previous and Next button functionality
+      Given User log in to provider URL and is already present at the website list page.
+      Then click on the  "Noti Cancel" button.
+      Then verify the "Previous" button is "disable" when user is on "1" page.
+      Then verify the "Next" button is "enable" when user is on "1" page.
+      Then click on the  "Next" button.
+      Then verify the "Previous" button is "enable" when user is on "2" page.
+      Then click on the  "Last Page" button.
+      Then verify the "Next" button is "disable" when user is on "Last page" page.
