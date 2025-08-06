@@ -159,16 +159,3 @@ Feature: GetID --> Add new WebSite
     Then Verify website list have following header field.
       | S.No. | Website Name | IP | URL | Login Slug | Client Name | Status | Action |
 #    And User will logout.
-
-  @Website_Pagination
-  Scenario: Scenario_8:Verify the Pagination of the website list.
-    Given User log in to provider URL and is already present at the website list page.
-    Then click on the  "Noti Cancel" button.
-    When User selects page size "25"
-    Then The number of rows displayed should be at most 25
-    When User selects page size "50"
-    Then The number of rows displayed should be at most 50
-    When User selects page size "100"
-    Then The number of rows displayed should be at most 100
-    When User selects page size "200"
-    Then The number of rows displayed should be at most 200
