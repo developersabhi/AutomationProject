@@ -93,12 +93,6 @@ public class websiteTest extends CommonMethod {
         for(String data:list){
             website.verifyWebsiteListHeader(data);
         }
-//        List<List<String>> list = dataTable.asLists(String.class);
-//        for (List<String> row : list) {
-//            for (String header : row) {
-//                website.verifyWebsiteListHeader(header);
-//            }
-//        }
     }
 
     @When("User selects page size {string}")
@@ -110,5 +104,31 @@ public class websiteTest extends CommonMethod {
     public void verify_rows_displayed(int expectedMax) {
         website.verifyRowCount(expectedMax);
     }
+
+//    @Then("user should see page {string} button as deactive.")
+//    public void user_should_see_page_button_as_deactive(String string) {
+//
+//    }
+//
+//    @Then("user should see page {string} button as active.")
+//    public void user_should_see_page_button_as_active(String string) {
+//
+//    }
+
+//    @When("click on the {string} button.")
+//    public void click_on_the_button(String string) {
+//
+//    }
+
+
+    @Then("verify the {string} button is {string} when user is on {string} page.")
+    public void verify_the_button_is_when_user_is_on_page(String btn, String status, String page) {
+            website.verifyPageChangeButton(btn,status,page);
+    }
+    @Then("verify the  {string} button is enable.")
+    public void verify_the_button_is_enable(String string) {
+
+    }
+
 
 }

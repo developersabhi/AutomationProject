@@ -1,6 +1,7 @@
 package util;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -54,6 +55,8 @@ public class CommonMethod {
     @FindBy(xpath ="//label[@class='switch']")
     WebElement statusBtn;
 
+    @FindBy(xpath = "(//ul[@class='pagination pagination-sm justify-content-center mb-2 mr-4']/child::li)[last()-1]")
+    WebElement lastPage;
 
 
     public void explicitWait(long time) {
@@ -99,6 +102,16 @@ public class CommonMethod {
 
     public static TestBase getTestBase(){
         return new TestBase();
+    }
+
+    public boolean isElementClickable(WebElement element){
+        boolean flag=false;
+        try {
+            if(element.isEnabled()) flag=true;
+        } catch (Exception e) {
+
+        }
+        return flag;
     }
 
     public void clickOnButtons(String button) {
@@ -167,6 +180,14 @@ public class CommonMethod {
             case "STATUS":
                 waitForVisibleElement(statusBtn);
                 statusBtn.click();
+                break;
+            case "LAST PAGE":
+                JavascriptExecutor javascriptExecutor = (JavascriptExecutor) TestBase.getWebDriver();
+                javascriptExecutor.executeScript("arguments[0].scrollIntoView(true)",lastPage);
+                waitForVisibleElement(lastPage);
+                explicitWait(1000);
+                lastPage.click();
+                logger.info("Last page button clicked..");
                 break;
             default:
                 logger.error("Button not found..");

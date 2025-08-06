@@ -119,6 +119,11 @@ public class Website extends CommonMethod {
     @FindBy(xpath = "//table/tbody/tr")
     List<WebElement> tableRows;
 
+    @FindBy(xpath = "//a[contains(text(),'Previous')]")
+    WebElement previous;
+    @FindBy(xpath = "//a[contains(text(),'Next')]")
+    WebElement next;
+
     public void verifyErrorMessage(List<Map<String, String>> list) {
         for (Map<String, String> map : list) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -406,7 +411,26 @@ public class Website extends CommonMethod {
         if (actualCount > expectedMax) {
             throw new AssertionError("Row count " + actualCount + " exceeded selected page size " + expectedMax);
         }
-        System.out.println("Rows displayed: " + actualCount + " | Selected size: " + expectedMax);
+        logger.info("Rows displayed: " + actualCount + " | Selected size: " + expectedMax);
+    }
+
+    public void verifyPageChangeButton(String btn, String status, String page){
+        switch (btn.toUpperCase()){
+            case "PREVIOUS" :
+                waitForVisibleElement(previous);
+                if (status.equalsIgnoreCase("disable") && !commonMethod.isElementClickable(previous)){
+                    logger.info("Previous button is disable for page :: "+page);
+                }else {
+                    logger.error("Previous button is enabled.");
+                }
+            case "NEXT" :
+                waitForVisibleElement(next);
+                if(status.equalsIgnoreCase("disable")&& !commonMethod.isElementClickable(next)){
+                    logger.info("Next button is disable for page :: "+page);
+                }else {
+                    logger.info("Next button is enabled.");
+                }
+        }
     }
 
 }
