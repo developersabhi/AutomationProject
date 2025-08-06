@@ -17,6 +17,7 @@ import java.util.*;
 
 public class Website extends CommonMethod {
     static protected String webSiteName, loginSlugName, database ,IPs , URLValue, ClientNameValue ;
+    Map<String,String> uiValidationProp = null;
 
     static Logger logger = Logger.getLogger(Website.class);
     BaseUtil baseUtil = new BaseUtil();
@@ -106,6 +107,12 @@ public class Website extends CommonMethod {
 
     @FindBy(xpath = "//tbody/tr[last()]")
     WebElement lastIndex;
+
+    @FindBy(xpath ="//div[contains(text(),'Website status is active updated successfully.')]")
+    WebElement statusActiveToster;
+
+    @FindBy(xpath = "//div[contains(text(),'Website status is inactive updated successfully.')]")
+    WebElement statusDeactiveToster;
 
     public void verifyErrorMessage(List<Map<String, String>> list) {
         for (Map<String, String> map : list) {
@@ -346,9 +353,39 @@ public class Website extends CommonMethod {
             logger.error("Ui properties file not read.."+e.getMessage());
         }
     }
-    Map<String,String> uiValidationProp = null;
+
     public void init(){
         uiValidationProp =readUiProperties();
     }
 
+    public void varifyStatusValidationMessage(String status){
+        String expectedToster = null;
+        String actualToster = null ;
+        switch (status.toUpperCase()){
+            case "ACTIVE":
+                waitForVisibleElement(statusActiveToster);
+                expectedToster = uiValidationProp.get("StatusActive");
+                actualToster = statusActiveToster.getText();
+                Assert.assertEquals("Expected result match with actual result ",expectedToster,actualToster);
+                break;
+            case "DEACTIVE":
+                waitForVisibleElement(statusDeactiveToster);
+                expectedToster = uiValidationProp.get("StatusDeactive");
+                actualToster = statusDeactiveToster.getText();
+                Assert.assertEquals("Expected result match with actual result ",expectedToster,actualToster);
+                break;
+            default:
+                logger.info("Status case not match."+ logger.getName());
+        }
+    }
+
+    public void verifyWebsiteListHeader(String heading){
+        try{
+            String expression="(//*[contains(text(), '#heading#')])[1]".replaceAll("#heading#",heading);
+            WebElement element=TestBase.getWebDriver().findElement(By.xpath(expression));
+            Assert.assertEquals("Expected data and actual data match:: ",heading,element.getText());
+        }catch (Exception e){
+            logger.error("Header not match as per expectation:: "+e.getMessage());
+        }
+    }
 }

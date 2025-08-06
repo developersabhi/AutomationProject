@@ -8,11 +8,11 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {
                 "src/test/java/provider/features/webSite.feature",
-//                "src/test/java/provider/features/editWebSite.feature"
+                "src/test/java/provider/features/zDeleteResources.feature"
         },
         glue = {
                 "com.automation.provider.website",
-                "com.automation.tests.base"
+                "com.automation.provider.deleteResources"
         }
         ,
         dryRun = false

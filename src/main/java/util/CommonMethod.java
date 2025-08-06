@@ -51,10 +51,9 @@ public class CommonMethod {
     WebElement yesBtn;
     @FindBy(xpath = "//div[@class ='swal2-actions']/child::button[@class='swal2-confirm swal2-styled']")
     WebElement okBtn;
-    @FindBy(xpath ="//div[@id='zgE6AeerZ']//parent::div[@class='toasted toasted-primary success']")
-    WebElement statusActive;
-    @FindBy(xpath ="//div[@id='zgE6AeerZ']//parent::div[@class='toasted toasted-primary error']")
-    WebElement statusDeactive;
+    @FindBy(xpath ="//label[@class='switch']")
+    WebElement statusBtn;
+
 
 
     public void explicitWait(long time) {
@@ -97,6 +96,7 @@ public class CommonMethod {
     public void waitForVisibleElement(WebElement element){
         wait.until(ExpectedConditions.visibilityOf(element));
     }
+
     public static TestBase getTestBase(){
         return new TestBase();
     }
@@ -163,6 +163,10 @@ public class CommonMethod {
                 explicitWait(2000);
                 waitForVisibleElement(okBtn);
                 okBtn.click();
+                break;
+            case "STATUS":
+                waitForVisibleElement(statusBtn);
+                statusBtn.click();
                 break;
             default:
                 logger.error("Button not found..");
