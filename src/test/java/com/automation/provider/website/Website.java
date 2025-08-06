@@ -7,6 +7,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import util.BaseUtil;
 import util.CommonMethod;
 import util.TestBase;
@@ -113,6 +114,10 @@ public class Website extends CommonMethod {
 
     @FindBy(xpath = "//div[contains(text(),'Website status is inactive updated successfully.')]")
     WebElement statusDeactiveToster;
+    @FindBy(xpath = "//select[@class='form-select']")
+    WebElement pageSizeDropdown;
+    @FindBy(xpath = "//table/tbody/tr")
+    List<WebElement> tableRows;
 
     public void verifyErrorMessage(List<Map<String, String>> list) {
         for (Map<String, String> map : list) {
@@ -277,8 +282,8 @@ public class Website extends CommonMethod {
                 baseUtil.enterText(websiteName, webSiteName);
                 commonMethod.clickOnButtons("SUBMIT");
                 expectedResult =uiValidationProp.get("WebsiteNameAlreadyTaken");
-                 waitForVisibleElement(websiteAlready);
-                 actualResult = websiteAlready.getText();
+                waitForVisibleElement(websiteAlready);
+                actualResult = websiteAlready.getText();
                 Assert.assertEquals("Website already  ",expectedResult,actualResult);
                 break;
             case "IP":
@@ -388,4 +393,20 @@ public class Website extends CommonMethod {
             logger.error("Header not match as per expectation:: "+e.getMessage());
         }
     }
+
+    public void selectPageSize(String size) {
+        waitForVisibleElement(pageSizeDropdown);
+        Select select = new Select(pageSizeDropdown);
+        select.selectByVisibleText(size);
+        explicitWait(1500);  // wait for table to refresh after selecting size
+    }
+
+    public void verifyRowCount(int expectedMax) {
+        int actualCount = tableRows.size();
+        if (actualCount > expectedMax) {
+            throw new AssertionError("Row count " + actualCount + " exceeded selected page size " + expectedMax);
+        }
+        System.out.println("Rows displayed: " + actualCount + " | Selected size: " + expectedMax);
+    }
+
 }
