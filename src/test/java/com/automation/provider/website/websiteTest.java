@@ -14,16 +14,7 @@ public class websiteTest extends CommonMethod {
 
     Website website = new Website();
     CommonMethod commonMethod = new CommonMethod();
-    @Given("User log in to provider URL and is already present at the website list page.")
-    public void user_log_in_to_provider_url_and_is_already_present_at_the_website_list_page() {
-        explicitWait(2000);
-        getTestBase().login();
 
-    }
-    @Then("click on the  {string} button.")
-    public void click_on_the_button(String button) {
-        clickOnButtons(button);
-    }
     @Then("click on the {string} button and Verify the error message for following field.")
     public void click_on_the_button_and_verify_the_error_message_for_following_field(String button, DataTable dataTable) {
         clickOnButtons(button);
@@ -31,24 +22,27 @@ public class websiteTest extends CommonMethod {
         explicitWait(1000);
         website.verifyErrorMessage(data);
     }
+
     @Then("user enter the data {string} for {string} field.")
     public void user_enter_the_data_for_field(String value, String field) {
             website.enterAddWebsiteFieldValue( value ,field);
     }
+
     @Then("user enter the data on the Search.")
     public void user_enter_the_data_on_the_search() {
             website.searchAddedWebSite();
     }
+
     @Then("User Verify the Add Website on list")
     public void user_verify_the_add_website_on_list() {
             website.verifyAddedSite();
     }
+
     @Then("User will logout.")
     public void user_will_logout() {
         explicitWait(2000);
         getTestBase().logout();
     }
-
 
     @Then("user the already use value for {string} field.")
     public void user_the_already_use_value_for_field(String field) {
@@ -105,30 +99,8 @@ public class websiteTest extends CommonMethod {
         website.verifyRowCount(expectedMax);
     }
 
-//    @Then("user should see page {string} button as deactive.")
-//    public void user_should_see_page_button_as_deactive(String string) {
-//
-//    }
-//
-//    @Then("user should see page {string} button as active.")
-//    public void user_should_see_page_button_as_active(String string) {
-//
-//    }
-
-//    @When("click on the {string} button.")
-//    public void click_on_the_button(String string) {
-//
-//    }
-
-
     @Then("verify the {string} button is {string} when user is on {string} page.")
     public void verify_the_button_is_when_user_is_on_page(String btn, String status, String page) {
             website.verifyPageChangeButton(btn,status,page);
     }
-    @Then("verify the  {string} button is enable.")
-    public void verify_the_button_is_enable(String string) {
-
-    }
-
-
 }
