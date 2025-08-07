@@ -23,9 +23,10 @@ public class CommonMethod {
     private static final TestBase testBase = TestBase.getInstance();
     BaseUtil baseUtil = new BaseUtil();
 
-    public CommonMethod(){
-        PageFactory.initElements(TestBase.getWebDriver(),this);
+    public CommonMethod() {
+        PageFactory.initElements(TestBase.getWebDriver(), this);
     }
+
     //div[@id='zgE6AeerZ']/parent::div[@class='toasted toasted-primary success')]
     //div[@id='zgE6AeerZ']//parent::div[contains(text(),'Website status is active updated successfully')]
     @FindBy(xpath = "//form//button[contains(text(), 'Login')]")
@@ -46,17 +47,27 @@ public class CommonMethod {
     WebElement actionBtn;
     @FindBy(xpath = "//button[@type='button']//child::i//child::img[@src ='/user/images/edit-icon.svg']")
     WebElement editBtn;
-    @FindBy(xpath="//i//child::img[@src ='/user/images/delete-icon.svg']")
+    @FindBy(xpath = "//i//child::img[@src ='/user/images/delete-icon.svg']")
     WebElement deleteBtn;
     @FindBy(xpath = "//div[@class ='swal2-actions']/child::button[@class='swal2-confirm swal2-styled']")
     WebElement yesBtn;
     @FindBy(xpath = "//div[@class ='swal2-actions']/child::button[@class='swal2-confirm swal2-styled']")
     WebElement okBtn;
-    @FindBy(xpath ="//label[@class='switch']")
+    @FindBy(xpath = "//label[@class='switch']")
     WebElement statusBtn;
 
     @FindBy(xpath = "(//ul[@class='pagination pagination-sm justify-content-center mb-2 mr-4']/child::li)[last()-1]")
     WebElement lastPage;
+
+    @FindBy(xpath = "//a[@href ='/manage-id']")
+    WebElement manageId;
+
+    @FindBy(xpath = "//a[@class ='btn btn-primary' and  contains(text(),'Add Payment Method')]")
+    WebElement addPaymentBtn;
+    @FindBy(xpath = "//select[@class='form-control']")
+    WebElement methodType;
+    @FindBy(xpath = "//input[@id='paymentIcon']")
+    WebElement paymentIcon;
 
 
     public void explicitWait(long time) {
@@ -77,37 +88,37 @@ public class CommonMethod {
             properties.load(inputStream);
             Enumeration<Object> keys = properties.keys();
 
-            while (keys.hasMoreElements()){
-                String key=  (String) keys.nextElement();
-                all.put(key , properties.getProperty(key));
+            while (keys.hasMoreElements()) {
+                String key = (String) keys.nextElement();
+                all.put(key, properties.getProperty(key));
             }
         } catch (Exception e) {
-            logger.error("Properties file not access:: "+ e.getMessage());
+            logger.error("Properties file not access:: " + e.getMessage());
         }
         return all;
     }
 
-    public void getData(){
+    public void getData() {
         try {
-            Map<String,String> testData =readProperties();
-            String url =testData.get("provider_env_url");
-        }catch (Exception e){
-            logger.error("Data not getting from properties files:: "+e.getMessage());
+            Map<String, String> testData = readProperties();
+            String url = testData.get("provider_env_url");
+        } catch (Exception e) {
+            logger.error("Data not getting from properties files:: " + e.getMessage());
         }
     }
 
-    public void waitForVisibleElement(WebElement element){
+    public void waitForVisibleElement(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static TestBase getTestBase(){
+    public static TestBase getTestBase() {
         return new TestBase();
     }
 
-    public boolean isElementClickable(WebElement element){
-        boolean flag=false;
+    public boolean isElementClickable(WebElement element) {
+        boolean flag = false;
         try {
-            if(element.isEnabled()) flag=true;
+            if (element.isEnabled()) flag = true;
         } catch (Exception e) {
 
         }
@@ -115,7 +126,7 @@ public class CommonMethod {
     }
 
     public void clickOnButtons(String button) {
-        switch (button.toUpperCase()){
+        switch (button.toUpperCase()) {
             case "LOGIN":
                 waitForVisibleElement(loginBtn);
                 loginBtn.click();
@@ -183,12 +194,31 @@ public class CommonMethod {
                 break;
             case "LAST PAGE":
                 JavascriptExecutor javascriptExecutor = (JavascriptExecutor) TestBase.getWebDriver();
-                javascriptExecutor.executeScript("arguments[0].scrollIntoView(true)",lastPage);
+                javascriptExecutor.executeScript("arguments[0].scrollIntoView(true)", lastPage);
                 waitForVisibleElement(lastPage);
                 explicitWait(1000);
                 lastPage.click();
                 logger.info("Last page button clicked..");
                 break;
+            case "MANAGE ID":
+                waitForVisibleElement(manageId);
+                manageId.click();
+                break;
+            case "ADD PAYMENT METHOD":
+                waitForVisibleElement(addPaymentBtn);
+                addPaymentBtn.click();
+                break;
+            case "METHOD TYPE":
+                waitForVisibleElement(methodType);
+                methodType.click();
+                break;
+            case "CHOOSE FILE":
+                JavascriptExecutor js = (JavascriptExecutor) TestBase.getWebDriver();
+                js.executeScript("arguments[0].click()",paymentIcon);
+                System.out.println("???");
+//            waitForVisibleElement(paymentIcon);
+//            paymentIcon.click();
+            break;
             default:
                 logger.error("Button not found..");
         }
