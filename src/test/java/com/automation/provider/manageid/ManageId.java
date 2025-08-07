@@ -11,6 +11,8 @@ import util.BaseUtil;
 import util.CommonMethod;
 import util.TestBase;
 
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ManageId extends CommonMethod {
@@ -33,6 +35,12 @@ public class ManageId extends CommonMethod {
     WebElement searchPayment;
     @FindBy(xpath = "//tbody/tr/td[3]")
     WebElement methodListName;
+    @FindBy(xpath = "//p[contains(text(),'Method type field is required.')]")
+    WebElement methodTypeErrorMess;
+    @FindBy(xpath = "//p[contains(text(),'Method name field is required.')]")
+    WebElement methodNameErrorMess;
+    @FindBy(xpath = "//p[contains(text(),'Payment icon field is required.')]")
+    WebElement paymentIconErrorMess;
 
     public void clickAndSelectMethod(String btn, String method) {
         clickOnButtons(btn);
@@ -58,7 +66,7 @@ public class ManageId extends CommonMethod {
     }
 
     public void uploadPaymentIcon(String btn) {
-        clickOnButtons(btn);
+//        clickOnButtons(btn);
         paymentIcon.sendKeys(System.getProperty("user.dir")+"/src/main/resources//QR_code_for_mobile_English_Wikipedia.svg.png");
 //        uploadImage("C:/Users/chatu/Downloads/QR_code_for_mobile_English_Wikipedia.svg.png");
         explicitWait(5000);
@@ -75,4 +83,34 @@ public class ManageId extends CommonMethod {
         String actual = methodListName.getText();
         Assert.assertEquals("Payment Method Added :: ",expected,actual);
     }
+
+    public void verifyErrorMessage(List<Map<String,String> >list){
+        for (Map<String, String> map: list){
+            for (Map.Entry<String,String> entry : map.entrySet()){
+                String fieldName = entry.getKey();
+                String errorMess = entry.getValue();
+
+                switch (fieldName.toUpperCase()){
+                    case "METHOD TYPE":
+                        Assert.assertEquals("Error message for method type as expected. Expected :: "
+                                +errorMess + " Actual :: "+methodTypeErrorMess.getText(),
+                                errorMess,methodTypeErrorMess.getText());
+                        break;
+                    case "METHOD NAME":
+                        Assert.assertEquals("Error message for method name as expected. Expcted :: "
+                            +errorMess + " Actual :: "+methodNameErrorMess.getText(),
+                                errorMess , methodNameErrorMess.getText());
+                        break;
+                    case "PAYMENT ICON":
+                        Assert.assertEquals("Error message for payment icon as expected. Expcted :: "
+                                        +errorMess + " Actual :: "+paymentIconErrorMess.getText(),
+                                errorMess , paymentIconErrorMess.getText());
+                        break;
+                    default:
+                        logger.info("Not getting Error Message");
+                }
+            }
+        }
+    }
+
 }
