@@ -27,14 +27,27 @@ public class manageIdTest extends CommonMethod {
     public void verify_the_add_payment_method_on_list() {
         manageId.verifyAddPaymentMethod();
     }
-//    click on the "Submit" button and Verify the error message for payment method following field.
-    @Then("click on the  {string} button and Verify the error message for payment method following field.")
     @Then("click on the {string} button and Verify the error message for payment method following field.")
     public void click_on_the_button_and_verify_the_error_message_for_payment_method_following_field(String btn, DataTable dataTable) {
         clickOnButtons(btn);
         List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
         explicitWait(1000);
         manageId.verifyErrorMessage(data);
+    }
+
+    @Then("click on the {string} and Upload edit.")
+    public void click_on_the_and_upload_edit(String upload) {
+        manageId.editPaymentIcon(upload);
+    }
+
+    @Then("Verify the edit Payment method on list.")
+    public void verify_the_edit_payment_method_on_list() {
+        manageId.verifyEditPaymentMethod();
+    }
+
+    @Then("Verify the {string} Payment method validation message on screen.")
+    public void verify_the_payment_method_validation_message_on_screen(String action) {
+        manageId.varifyPaymentMethodValidationMessage(action);
     }
 
 }

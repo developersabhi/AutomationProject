@@ -2,6 +2,7 @@ package com.automation.provider.manageid;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,18 +12,22 @@ import util.BaseUtil;
 import util.CommonMethod;
 import util.TestBase;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 public class ManageId extends CommonMethod {
 
     static protected String methodNameValue;
 
-    Logger logger = Logger.getLogger(ManageId.class);
+    Map<String,String> uiValidationProp ;
+
+
+    static  Logger logger = Logger.getLogger(ManageId.class);
     BaseUtil baseUtil = new BaseUtil();
     ManageId(){
         PageFactory.initElements(TestBase.getWebDriver(),this);
+        init();
     }
     @FindBy(xpath = "//select[@class='form-control']")
     WebElement methodType;
@@ -33,7 +38,7 @@ public class ManageId extends CommonMethod {
     @FindBy(xpath = "(//input[@type='search' and @placeholder='Search'])[1]")
 //    @FindBy(xpath = "//div[@id='payment-methods-tab-pane']//input[@type='search']")
     WebElement searchPayment;
-    @FindBy(xpath = "//tbody/tr/td[3]")
+    @FindBy(xpath = "(//tbody/tr/td)[3]")
     WebElement methodListName;
     @FindBy(xpath = "//p[contains(text(),'Method type field is required.')]")
     WebElement methodTypeErrorMess;
@@ -41,6 +46,15 @@ public class ManageId extends CommonMethod {
     WebElement methodNameErrorMess;
     @FindBy(xpath = "//p[contains(text(),'Payment icon field is required.')]")
     WebElement paymentIconErrorMess;
+
+    @FindBy(xpath = "//div[contains(text(),'Payment method inserted successfully.')]")
+    WebElement addValidationMess;
+    @FindBy(xpath = "//div[contains(text(),'Payment method updated successfully.')]")
+    WebElement updateValidationMess;
+
+    public void init(){
+        uiValidationProp = readUiProperties();
+    }
 
     public void clickAndSelectMethod(String btn, String method) {
         clickOnButtons(btn);
@@ -53,6 +67,7 @@ public class ManageId extends CommonMethod {
         switch (field.toUpperCase()){
             case "METHOD NAME":
                 waitForVisibleElement(methodName);
+                methodName.clear();
                 methodNameValue = value + generateRandomString();
                 methodName.sendKeys(methodNameValue);
                 break;
@@ -67,12 +82,31 @@ public class ManageId extends CommonMethod {
 
     public void uploadPaymentIcon(String btn) {
 //        clickOnButtons(btn);
-        paymentIcon.sendKeys(System.getProperty("user.dir")+"/src/main/resources//QR_code_for_mobile_English_Wikipedia.svg.png");
+        paymentIcon.sendKeys(System.getProperty("user.dir")+"/src/main/resources/QR_code_for_mobile_English_Wikipedia.svg.png");
 //        uploadImage("C:/Users/chatu/Downloads/QR_code_for_mobile_English_Wikipedia.svg.png");
-        explicitWait(5000);
+        explicitWait(2000);
+    }
+
+    public void editPaymentIcon(String btn){
+        paymentIcon.sendKeys(System.getProperty("user.dir")+"/src/main/resources/Screenshot_4.png");
+        explicitWait(2000);
     }
 
     public void verifyAddPaymentMethod(){
+        explicitWait(2000);
+        waitForVisibleElement(searchPayment);
+        searchPayment.clear();
+        searchPayment.sendKeys(methodNameValue);
+//        searchPaymentValue = methodNameValue;
+//        searchPayment.sendKeys(methodNameValue);
+        searchPayment.sendKeys(Keys.ENTER);
+        explicitWait(1000);
+        String expected = methodNameValue;
+        String actual = methodListName.getText();
+        Assert.assertEquals("Payment Method Added :: ",expected,actual);
+    }
+
+    public void verifyEditPaymentMethod(){
         explicitWait(2000);
         waitForVisibleElement(searchPayment);
         searchPayment.clear();
@@ -110,6 +144,50 @@ public class ManageId extends CommonMethod {
                         logger.info("Not getting Error Message");
                 }
             }
+        }
+    }
+
+    public static Map<String,String> readUiProperties(){
+        Map<String,String> all =new HashMap<>();
+        Properties properties = new Properties();
+        try {
+            InputStream inputStream = new FileInputStream(System.getProperty("user.dir")+
+                    "/src/main/resources/UiValidation.properties");
+            properties.load(inputStream);
+            Enumeration<Object> keys = properties.keys();
+            while (keys.hasMoreElements()) {
+                String key = (String) keys.nextElement();
+                all.put(key, properties.getProperty(key));
+            }
+        }catch (Exception e){
+            logger.error("Ui properties file not read.."+e.getMessage());
+        }
+        return all;
+
+    }
+
+    public void  varifyPaymentMethodValidationMessage(String action){
+        String expectedToster ;
+        String actualToster  ;
+        switch (action.toUpperCase()){
+            case "ADD":
+                waitForVisibleElement(addValidationMess);
+                expectedToster =uiValidationProp.get("AddPaymentMethod");
+                actualToster = addValidationMess.getText();
+                Assert.assertEquals("",expectedToster,actualToster);
+                System.out.println(actualToster);
+                System.out.println(expectedToster);
+                break;
+            case "EDIT":
+                waitForVisibleElement(updateValidationMess);
+                expectedToster =  uiValidationProp.get("EditPaymentMethod");
+                actualToster = updateValidationMess.getText();
+                Assert.assertEquals("", expectedToster,actualToster);
+                System.out.println(actualToster);
+                System.out.println(expectedToster);
+                break;
+            default:
+                logger.error("Action not found");
         }
     }
 

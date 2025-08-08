@@ -71,6 +71,11 @@ public class CommonMethod {
     @FindBy(xpath = "//div[@id='payment-methods-tab-pane']//button[contains(text(),'Submit')]")
     WebElement paymentMethodSubmitBtn;
 
+    @FindBy(xpath = "(//table[@class='table table-hover']//div[@class='btn-group option-dd']/button[@class='btn action-btn'])[1]")
+    WebElement paymentActionBtn;
+    @FindBy(xpath = "(//i[@class='edit-icon'])[1]")
+    WebElement  paymentMethodEditBtn;
+
 
     public void explicitWait(long time) {
         try {
@@ -224,6 +229,14 @@ public class CommonMethod {
             case "SUBMIT PAYMENT METHOD":
                 waitForVisibleElement(paymentMethodSubmitBtn);
                 paymentMethodSubmitBtn.click();
+                break;
+            case "PAYMENT ACTION":
+                waitForVisibleElement(paymentActionBtn);
+                paymentActionBtn.click();
+                break;
+            case "EDIT PAYMENT METHOD":
+                waitForVisibleElement(paymentMethodEditBtn);
+                paymentMethodEditBtn.click();
                 break;
             default:
                 logger.error("Button not found..");

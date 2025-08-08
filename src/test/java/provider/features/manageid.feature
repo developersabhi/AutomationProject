@@ -16,23 +16,61 @@ Feature: GetID --> Add New Payment Method
 #    Then click on the "Choose File" and Upload.
 #    Then click on the  "Submit" button.
 #    Then Verify the add Payment method on list.
+#    Then Verify the "ADD" Payment method validation message on screen.
 
-  @ManageId_Add_new_PaymentMethod_Without_Fill
-  Scenario: Scenario_2: Add New Payment Method without fill the field and Verify the Validation message.
+#  @ManageId_Add_new_PaymentMethod_Without_Fill
+#  Scenario: Scenario_2: Add New Payment Method without fill the field and Verify the Validation message.
+#    Then click on the  "Manage ID" button.
+#    Then click on the  "Add Payment Method" button.
+#    And click on the "Submit" button and Verify the error message for payment method following field.
+#      | Method Type                    | Method Name                    | Payment Icon                    |
+#      | Method type field is required. | Method name field is required. | Payment icon field is required. |
+#    Then click on the  "Method Type" dropdown and choice the "UPI" method.
+#    Then click on the  "Submit" button and Verify the error message for payment method following field.
+#      | Method Name                    | Payment Icon                    |
+#      | Method name field is required. | Payment icon field is required. |
+#    Then enter the value "TestAuto" for the field "Method Name".
+#    Then click on the  "Submit" button and Verify the error message for payment method following field.
+#      | Payment Icon                    |
+#      | Payment icon field is required. |
+#    Then click on the "Choose File" and Upload.
+##    Then click on the  "Submit Payment Method" button.
+#    Then click on the  "Submit" button.
+#    Then Verify the add Payment method on list.
+#  Then Verify the "ADD" Payment method validation message on screen.
+
+  @ManageId_Edit_PaymentMethod_varify_Validation
+  Scenario:Scenario_3: Add new payment method after that edit the Payment method.
     Then click on the  "Manage ID" button.
     Then click on the  "Add Payment Method" button.
-    And click on the "Submit" button and Verify the error message for payment method following field.
-      | Method Type                    | Method Name                    | Payment Icon                    |
-      | Method type field is required. | Method name field is required. | Payment icon field is required. |
     Then click on the  "Method Type" dropdown and choice the "UPI" method.
-    Then click on the  "Submit" button and Verify the error message for payment method following field.
-      | Method Name                    | Payment Icon                    |
-      | Method name field is required. | Payment icon field is required. |
     Then enter the value "TestAuto" for the field "Method Name".
-    Then click on the  "Submit" button and Verify the error message for payment method following field.
-      | Payment Icon                    |
-      | Payment icon field is required. |
     Then click on the "Choose File" and Upload.
-#    Then click on the  "Submit Payment Method" button.
     Then click on the  "Submit" button.
     Then Verify the add Payment method on list.
+    Then click on the  "Payment Action" button.
+    Then click on the  "Edit Payment Method" button.
+    Then click on the  "Method Type" dropdown and choice the "Bank" method.
+    Then enter the value "TestAuto" for the field "Method Name".
+    Then click on the "Choose File" and Upload edit.
+    Then click on the  "Submit" button.
+    Then Verify the edit Payment method on list.
+    Then Verify the "Edit" Payment method validation message on screen.
+
+#    @ManageId_Verify_aldeady_used_data
+#    Scenario:Scenario_4:
+#    Then click on the  "Manage ID" button.
+#    Then click on the  "Add Payment Method" button.
+#    Then click on the  "Method Type" dropdown and choice the "UPI" method.
+#    Then enter the value "TestAuto" for the field "Method Name".
+#    Then click on the "Choose File" and Upload.
+#    Then click on the  "Submit" button.
+#    Then Verify the add Payment method on list.
+#    Then click on the  "Add Payment Method" button.
+#    Then click on the  "Method Type" dropdown and choice the "UPI" method.
+#    Then user the already use value for "Method Name" field.
+#    Then click on the  "Submit" button.
+#    Then click on the "Choose File" and Upload.
+#    Then click on the  "Submit" button.
+#    Then Verify the add Payment method on list.
+#    Then Verify the "ADD" Payment method validation message on screen.
