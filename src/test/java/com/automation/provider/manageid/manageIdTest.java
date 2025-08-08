@@ -50,4 +50,9 @@ public class manageIdTest extends CommonMethod {
         manageId.varifyPaymentMethodValidationMessage(action);
     }
 
+    @Then("use the already use value for Method {string} field.")
+    public void use_the_already_use_value_for_method_field(String field) {
+        manageId.validationForAleardyUsedInPaymentMethod(field);
+    }
+
 }

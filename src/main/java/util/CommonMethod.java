@@ -76,6 +76,9 @@ public class CommonMethod {
     @FindBy(xpath = "(//i[@class='edit-icon'])[1]")
     WebElement  paymentMethodEditBtn;
 
+    @FindBy(xpath = "//div[@id='add-payment-method-modal']//form//div[@class='modal-footer']//button[@class='btn btn-secondary' and contains(text(),'Cancel')]")
+    WebElement paymentMethodCancelBtn;
+
 
     public void explicitWait(long time) {
         try {
@@ -237,6 +240,10 @@ public class CommonMethod {
             case "EDIT PAYMENT METHOD":
                 waitForVisibleElement(paymentMethodEditBtn);
                 paymentMethodEditBtn.click();
+                break;
+            case "CANCEL PAYMENT":
+                waitForVisibleElement(paymentMethodCancelBtn);
+                paymentMethodCancelBtn.click();
                 break;
             default:
                 logger.error("Button not found..");

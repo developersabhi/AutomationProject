@@ -51,6 +51,8 @@ public class ManageId extends CommonMethod {
     WebElement addValidationMess;
     @FindBy(xpath = "//div[contains(text(),'Payment method updated successfully.')]")
     WebElement updateValidationMess;
+    @FindBy(xpath = "//p[contains(text(),'The name has already been taken.')]")
+    WebElement methodNameAlready;
 
     public void init(){
         uiValidationProp = readUiProperties();
@@ -163,7 +165,6 @@ public class ManageId extends CommonMethod {
             logger.error("Ui properties file not read.."+e.getMessage());
         }
         return all;
-
     }
 
     public void  varifyPaymentMethodValidationMessage(String action){
@@ -191,4 +192,56 @@ public class ManageId extends CommonMethod {
         }
     }
 
+//    public void validationForAleardyUsedInPaymentMethod(String field){
+//        String expectedResult = null;
+//        String actualResult = null;
+//        switch (field.toUpperCase()){
+//            case "METHOD NAME":
+//                waitForVisibleElement(methodName);
+//                baseUtil.enterText(methodName,methodNameValue);
+//                expectedResult = uiValidationProp.get("MethodNameAlreadyTaken");
+//                waitForVisibleElement(methodNameAlready);
+//                actualResult = methodNameAlready.getText();
+//                Assert.assertEquals("Method name aleady take :: ",expectedResult,actualResult);
+//                break;
+//            default:
+//                logger.info("Data not found..");
+//        }
+//    }
+
+
+    public void validationForAleardyUsedInPaymentMethod(String field){
+        String  btn = "Choose File";
+        String btn2 = "Submit";
+        uploadPaymentIcon(btn);
+        String expectedResult = null;
+        String actualResult = null;
+        switch (field.toUpperCase()){
+            case "METHOD NAME":
+                waitForVisibleElement(methodName);
+                baseUtil.enterText(methodName,methodNameValue);
+                clickOnButtons(btn2);
+
+                JavascriptExecutor javascriptExecutor = (JavascriptExecutor) TestBase.getWebDriver();
+
+                expectedResult = uiValidationProp.get("MethodNameAlreadyTaken");
+
+                waitForVisibleElement(methodNameAlready);
+                explicitWait(1500); // Optional: small wait if needed
+
+                actualResult = (String) javascriptExecutor.executeScript(
+                        "return arguments[0].textContent;", methodNameAlready);
+
+                Assert.assertEquals("Validation message mismatch", expectedResult, actualResult);
+//                JavascriptExecutor javascriptExecutor = (JavascriptExecutor) TestBase.getWebDriver();
+//
+//                expectedResult = uiValidationProp.get("MethodNameAlreadyTaken");
+//                waitForVisibleElement(methodNameAlready);
+//                actualResult = methodNameAlready.getText();
+                Assert.assertEquals("Method name aleady take :: ",expectedResult,actualResult);
+                break;
+            default:
+                logger.info("Data not found..");
+        }
+    }
 }
