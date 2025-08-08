@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
                 "src/test/java/provider/features/manageid.feature",
                 "src/test/java/provider/features/zDeleteResources.feature"
         },
+        tags = ("@test"),
         glue = {
                 "com.automation.provider.loginResources",
 //                "com.automation.provider.website",

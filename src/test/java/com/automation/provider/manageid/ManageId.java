@@ -54,6 +54,11 @@ public class ManageId extends CommonMethod {
     @FindBy(xpath = "//p[contains(text(),'The name has already been taken.')]")
     WebElement methodNameAlready;
 
+    @FindBy(xpath = "//div[contains(text(),'Payment method status is active updated successfully.')]")
+    WebElement paymentStatusActiveToster;
+    @FindBy(xpath = "//div[contains(text(),'Payment method status is inactive updated successfully.')]")
+    WebElement paymentStatusDeactiveToster;
+
     public void init(){
         uiValidationProp = readUiProperties();
     }
@@ -243,5 +248,33 @@ public class ManageId extends CommonMethod {
             default:
                 logger.info("Data not found..");
         }
+    }
+
+    public void verifyStatusValidationMessageOnPayment(String status){
+        String expectedToster = null;
+        String actualToster = null ;
+        switch (status.toUpperCase()){
+            case "PAYMENT ACTIVE":
+                waitForVisibleElement(paymentStatusActiveToster);
+                expectedToster = uiValidationProp.get("PaymentMethodStatusActive");
+                actualToster = paymentStatusActiveToster.getText();
+                Assert.assertEquals("Expected result match with actual result ",expectedToster,actualToster);
+                break;
+            case "PAYMENT INACTIVE":
+                waitForVisibleElement(paymentStatusDeactiveToster);
+                expectedToster = uiValidationProp.get("PaymentMethodStatusDeactive");
+                actualToster = paymentStatusDeactiveToster.getText();
+                Assert.assertEquals("Expected result match with actual result ",expectedToster,actualToster);
+                break;
+            default:
+                logger.info("Status case not match."+ logger.getName());
+        }
+    }
+
+    public void search(String methodName){
+        waitForVisibleElement(searchPayment);
+        searchPayment.clear();
+        searchPayment.sendKeys(methodNameValue);
+        searchPayment.sendKeys(Keys.ENTER);
     }
 }

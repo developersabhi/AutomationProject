@@ -27,7 +27,7 @@ public class manageIdTest extends CommonMethod {
     public void verify_the_add_payment_method_on_list() {
         manageId.verifyAddPaymentMethod();
     }
-    @Then("click on the {string} button and Verify the error message for payment method following field.")
+    @Then("click on the  {string} button and Verify the error message for payment method following field.")
     public void click_on_the_button_and_verify_the_error_message_for_payment_method_following_field(String btn, DataTable dataTable) {
         clickOnButtons(btn);
         List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
@@ -54,5 +54,21 @@ public class manageIdTest extends CommonMethod {
     public void use_the_already_use_value_for_method_field(String field) {
         manageId.validationForAleardyUsedInPaymentMethod(field);
     }
+
+    @Then("search the {string}.")
+    public void search_the(String name) {
+        manageId.search(name);
+    }
+
+    @Then("verify the payment status change from active to {string}.")
+    public void verify_the_payment_status_change_from_active_to(String status) {
+        manageId.verifyStatusValidationMessageOnPayment(status);
+    }
+
+    @Then("verify the payment status change from deactive to {string}.")
+    public void verify_the_payment_status_change_from_deactive_to(String status) {
+        manageId.verifyStatusValidationMessageOnPayment(status);
+    }
+
 
 }
