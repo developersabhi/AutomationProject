@@ -5,8 +5,8 @@ Feature: GetID --> Add New Payment Method
   For this we will login with provider credentials and will test the different scenarios including behaviour and functional test of the WebSite List.
   For Testing we will use the test data.
 @test
-  @WebSiteList_Add
-  Scenario:Scenario_1: Add Website and verify the added website.
+  @ManageId_Add
+  Scenario:Scenario_1: Add Payment Method and verify the added Payment Method.
 #    Given User log in to provider URL and is already present at the website list page.
 #    Then click on the  "Noti Cancel" button.
     Then click on the  "Manage ID" button.

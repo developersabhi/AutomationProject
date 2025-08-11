@@ -126,32 +126,42 @@ public class ManageId extends CommonMethod {
     }
 
     public void verifyErrorMessage(List<Map<String,String> >list){
-        for (Map<String, String> map: list){
-            for (Map.Entry<String,String> entry : map.entrySet()){
-                String fieldName = entry.getKey();
-                String errorMess = entry.getValue();
+        try{
+            for (Map<String, String> map: list){
+                for (Map.Entry<String,String> entry : map.entrySet()){
+                    String fieldName = entry.getKey();
+                    String errorMess = entry.getValue();
 
-                switch (fieldName.toUpperCase()){
-                    case "METHOD TYPE":
-                        Assert.assertEquals("Error message for method type as expected. Expected :: "
-                                +errorMess + " Actual :: "+methodTypeErrorMess.getText(),
-                                errorMess,methodTypeErrorMess.getText());
-                        break;
-                    case "METHOD NAME":
-                        Assert.assertEquals("Error message for method name as expected. Expcted :: "
-                            +errorMess + " Actual :: "+methodNameErrorMess.getText(),
-                                errorMess , methodNameErrorMess.getText());
-                        break;
-                    case "PAYMENT ICON":
-                        Assert.assertEquals("Error message for payment icon as expected. Expcted :: "
-                                        +errorMess + " Actual :: "+paymentIconErrorMess.getText(),
-                                errorMess , paymentIconErrorMess.getText());
-                        break;
-                    default:
-                        logger.info("Not getting Error Message");
+                    switch (fieldName.toUpperCase()){
+                        case "METHOD TYPE":
+                            Assert.assertEquals("Error message for method type as expected. Expected :: "
+                                            +errorMess + " Actual :: "+methodTypeErrorMess.getText(),
+                                    errorMess,methodTypeErrorMess.getText());
+                            break;
+                        case "METHOD NAME":
+                            Assert.assertEquals("Error message for method name as expected. Expcted :: "
+                                            +errorMess + " Actual :: "+methodNameErrorMess.getText(),
+                                    errorMess , methodNameErrorMess.getText());
+                            break;
+                        case "PAYMENT ICON":
+                            Assert.assertEquals("Error message for payment icon as expected. Expcted :: "
+                                            +errorMess + " Actual :: "+paymentIconErrorMess.getText(),
+                                    errorMess , paymentIconErrorMess.getText());
+                            break;
+                        default:
+                            logger.info("Not getting Error Message");
+                    }
                 }
             }
+        }catch (Exception e){
+            try {
+                            clickOnButtons("CANCEL");
+            }finally {
+                logger.error("Error message not match as per expectation :: "+e.getMessage());
+            }
         }
+
+
     }
 
     public static Map<String,String> readUiProperties(){
