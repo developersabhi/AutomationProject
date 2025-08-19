@@ -79,6 +79,24 @@ public class CommonMethod {
     @FindBy(xpath = "//div[@id='add-payment-method-modal']//form//div[@class='modal-footer']//button[@class='btn btn-secondary' and contains(text(),'Cancel')]")
     WebElement paymentMethodCancelBtn;
 
+    @FindBy(xpath = "//button[@id='contact-tab']")
+    WebElement banksSectionBtn;
+    @FindBy(xpath = "//a[contains(text(),'Add Bank')]")
+    WebElement addBankBtn;
+    @FindBy(xpath = "//input[@placeholder='Enter Bank Name']")
+    WebElement bankNameField;
+    @FindBy(xpath = "//select[@name='country']")
+    WebElement selectCountry;
+    @FindBy(xpath = "//input[@id='isAutomationAllow']")
+    WebElement bankCheckBox;
+    @FindBy(xpath = "//input[@id='icon']")
+    WebElement bankIcon;
+    @FindBy(xpath = "//button[contains(text(),'SUBMIT')]")
+    WebElement submitBankBtn;
+    @FindBy(xpath = "//div[@id='add-bank-modal']//button[contains(text(),'Cancel')]")
+    WebElement cancelBankBtn;
+
+
 
     public void explicitWait(long time) {
         try {
@@ -244,6 +262,22 @@ public class CommonMethod {
             case "CANCEL PAYMENT":
                 waitForVisibleElement(paymentMethodCancelBtn);
                 paymentMethodCancelBtn.click();
+                break;
+            case "BANKS SECTION":
+                waitForVisibleElement(banksSectionBtn);
+                banksSectionBtn.click();
+                break;
+            case "ADD BANK":
+                waitForVisibleElement(addBankBtn);
+                addBankBtn.click();
+                break;
+            case "SUBMIT BANK":
+                waitForVisibleElement(submitBankBtn);
+                submitBankBtn.click();
+                break;
+            case "AUTOMATION CHECK BOX":
+                waitForVisibleElement(bankCheckBox);
+                bankCheckBox.click();
                 break;
             default:
                 logger.error("Button not found..");

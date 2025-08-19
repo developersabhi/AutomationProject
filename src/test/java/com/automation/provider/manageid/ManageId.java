@@ -18,7 +18,7 @@ import java.util.*;
 
 public class ManageId extends CommonMethod {
 
-    static protected String methodNameValue;
+    static protected String methodNameValue, bankNameFieldValue;
 
     Map<String,String> uiValidationProp ;
 
@@ -59,6 +59,19 @@ public class ManageId extends CommonMethod {
     @FindBy(xpath = "//div[contains(text(),'Payment method status is inactive updated successfully.')]")
     WebElement paymentStatusDeactiveToster;
 
+    @FindBy(xpath = "//p[contains(text(),'Bank name field is required.')]")
+    WebElement bankNameErrorMessage;
+    @FindBy(xpath = "//p[contains(text(),'Please select bank country name.')]")
+    WebElement countryErrorMessage;
+    @FindBy(xpath = "//div[contains(text(),'Bank icon is required')]")
+    WebElement bankIconErrorMessage;
+    @FindBy(xpath = "//input[@placeholder='Enter Bank Name']")
+    WebElement bankNameField;
+    @FindBy(xpath = "//select[@name='country']")
+    WebElement selectCountry;
+    @FindBy(xpath = "//input[@id='icon']")
+    WebElement bankIcon;
+
     public void init(){
         uiValidationProp = readUiProperties();
     }
@@ -70,6 +83,13 @@ public class ManageId extends CommonMethod {
         select.selectByVisibleText(method);
     }
 
+    public void clickAndSelectCountry(String btn, String country) {
+        clickOnButtons(btn);
+        waitForVisibleElement(selectCountry);
+        Select select = new Select(selectCountry);
+        select.selectByVisibleText(country);
+    }
+
     public void enterPaymentMethod(String value, String field){
         switch (field.toUpperCase()){
             case "METHOD NAME":
@@ -77,6 +97,12 @@ public class ManageId extends CommonMethod {
                 methodName.clear();
                 methodNameValue = value + generateRandomString();
                 methodName.sendKeys(methodNameValue);
+                break;
+            case "BANK NAME":
+                waitForVisibleElement(bankNameField);
+                bankNameField.clear();
+                bankNameFieldValue =value+ generateRandomString();
+                bankNameField.sendKeys(bankNameFieldValue);
                 break;
             default:
                 logger.info("Field not match :: "+field);
@@ -91,6 +117,11 @@ public class ManageId extends CommonMethod {
 //        clickOnButtons(btn);
         paymentIcon.sendKeys(System.getProperty("user.dir")+"/src/main/resources/QR_code_for_mobile_English_Wikipedia.svg.png");
 //        uploadImage("C:/Users/chatu/Downloads/QR_code_for_mobile_English_Wikipedia.svg.png");
+        explicitWait(2000);
+    }
+
+    public void uploadBankIcon(String btn) {
+        bankIcon.sendKeys(System.getProperty("user.dir")+"/src/main/resources/QR_code_for_mobile_English_Wikipedia.svg.png");
         explicitWait(2000);
     }
 
@@ -134,19 +165,34 @@ public class ManageId extends CommonMethod {
 
                     switch (fieldName.toUpperCase()){
                         case "METHOD TYPE":
-                            Assert.assertEquals("Error message for method type as expected. Expected :: "
+                            Assert.assertEquals("Error message for method type not as  expected. Expected :: "
                                             +errorMess + " Actual :: "+methodTypeErrorMess.getText(),
-                                    errorMess,methodTypeErrorMess.getText());
+                                    errorMess, methodTypeErrorMess.getText());
                             break;
                         case "METHOD NAME":
-                            Assert.assertEquals("Error message for method name as expected. Expcted :: "
+                            Assert.assertEquals("Error message for method name not as expected. Expected :: "
                                             +errorMess + " Actual :: "+methodNameErrorMess.getText(),
                                     errorMess , methodNameErrorMess.getText());
                             break;
                         case "PAYMENT ICON":
-                            Assert.assertEquals("Error message for payment icon as expected. Expcted :: "
+                            Assert.assertEquals("Error message for payment icon not as expected. Expected :: "
                                             +errorMess + " Actual :: "+paymentIconErrorMess.getText(),
                                     errorMess , paymentIconErrorMess.getText());
+                            break;
+                        case "BANK NAME":
+                            Assert.assertEquals("Error message for payment icon not as expected. Expected :: "
+                                            +errorMess + " Actual :: "+bankNameErrorMessage.getText(),
+                                    errorMess , bankNameErrorMessage.getText());
+                            break;
+                        case "COUNTRY":
+                            Assert.assertEquals("Error message for country not as expected. Expected :: "
+                                            +errorMess + " Actual :: "+countryErrorMessage.getText(),
+                                    errorMess , countryErrorMessage.getText());
+                            break;
+                        case "BANK ICON":
+                            Assert.assertEquals("Error message for bank icon not as expected. Expected :: "
+                                            +errorMess + " Actual :: "+bankIconErrorMessage.getText(),
+                                    errorMess , bankIconErrorMessage.getText());
                             break;
                         default:
                             logger.info("Not getting Error Message");

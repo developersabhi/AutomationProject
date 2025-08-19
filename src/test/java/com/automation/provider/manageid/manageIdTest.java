@@ -70,5 +70,21 @@ public class manageIdTest extends CommonMethod {
         manageId.verifyStatusValidationMessageOnPayment(status);
     }
 
+    @Then("click on the  {string} button and Verify the error message for banks add following field.")
+    public void click_on_the_button_and_verify_the_error_message_for_banks_add_following_field(String btn, DataTable dataTable) {
+        clickOnButtons(btn);
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        explicitWait(1000);
+        manageId.verifyErrorMessage(data);
+    }
+
+    @Then("click on the  {string} dropdown and choice the county {string} method.")
+    public void click_on_the_dropdown_and_choice_the_country_method(String btn, String country) {
+        manageId.clickAndSelectCountry(btn,country );
+    }
+    @Then("click on the {string} and bank icon Upload.")
+    public void click_on_the_and_bank_iconupload(String btn) {
+        manageId.uploadBankIcon(btn);
+    }
 
 }
